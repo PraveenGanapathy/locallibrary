@@ -1,0 +1,9 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="text-center">
+    <h1>Search Error</h1>
+    <p>Please enter a search query.</p>
+    <a href="{% url 'index' %}" class="btn btn-primary">Return to Search</a>
+  </div>
+{% endblock %}

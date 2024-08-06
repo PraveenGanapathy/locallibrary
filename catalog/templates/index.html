@@ -1,0 +1,91 @@
+{% extends "base_generic.html" %}
+
+{% block title %}
+<title>Local Library</title>
+<style>
+  .text-center {
+    text-align: center;
+  }
+  .center-form {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+  }
+  .search-bar {
+    width: 500%;
+  }
+  #search-input-field {
+  width: 400px; /* default width */
+}
+
+/* Small screens (e.g., mobile devices) */
+@media (max-width: 767px) {
+  #search-input-field {
+    width: 200px; /* reduce width for smaller screens */
+  }
+}
+
+/* Medium screens (e.g., tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+  #search-input-field {
+    width: 350px; /* adjust width for medium screens */
+  }
+}
+
+/* Large screens (e.g., desktops) */
+@media (min-width: 992px) {
+  #search-input-field {
+    width: 550px; /* increase width for larger screens */
+  }
+}
+  </style>
+  <script>
+window.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('search-input-field');
+  const searchButton = document.getElementById('search-button');
+  const searchForm = document.getElementById('search-form'); // Assuming your form has this ID
+
+  searchInput.addEventListener('input', () => {
+    if (searchInput.value.trim() === '') {
+      searchButton.disabled = true;
+    } else {
+      searchButton.disabled = false;
+    }
+  });
+
+  searchForm.addEventListener('submit', (e) => {
+    if (searchInput.value.trim() === '') {
+      e.preventDefault(); // Prevent form submission
+    }
+  });
+});
+  </script>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="text-center">Local Library</h1>
+        <p class="lead text-center">Welcome to Local Library</p>
+        <p class="text-muted text-center">The library has the following record</p>
+        <ul class="list-group">
+          <li class="list-group-item"><strong>Books:</strong> {{ num_books }}</li>
+          <li class="list-group-item"><strong>Copies:</strong> {{ num_instances }}</li>
+          <li class="list-group-item"><strong>Copies available:</strong> {{ num_instances_available }}</li>
+          <li class="list-group-item"><strong>Authors:</strong> {{ num_authors }}</li>
+        </ul>
+        <br>
+        <div class="center-form">
+            <h2 class="text-center">Search the Library</h2>
+            <form action="{% url 'search' %}" method="get" class="form-inline my-2 my-lg-0">
+                <input id="search-input-field" class="form-control mr-sm-2 d-inline search-bar search-input-width" type="text" name="query" placeholder="Search for books, authors, or genres" aria-label="Search">                <div class="text-center">
+                <button class="btn btn-outline-success my-2 my-sm-2 mx-2" type="submit" id="search-button">Search</button>
+              </div>            </form>
+          </div>
+        <br>
+        <p class="text-muted-center text-center">You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-nav li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .sidebar-nav li a {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  .sidebar-nav li a:hover {
+    color: #23527c;
+  }
+  
+  #sidebar-toggle {
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  #sidebar-toggle::before {
+    position: absolute;
+    left: 0;
+    content: "\9776";
+  }
+  
+  #sidebar-nav.show ~ #sidebar-toggle::before {
+    content: "\10006";
+  }
+  
+  /* Add some basic responsive design rules */
+  @media (max-width: 768px) {
+    .container-fluid {
+      padding: 0;
+    }
+    .sidebar-nav {
+      display: none;
+    }
+  }
+  .list-group-item span {
+    color: #000000; /* or any other color you want */
+  }
+  .custom-list {
+    color: #337ab7; /* or any other color you want */
+}

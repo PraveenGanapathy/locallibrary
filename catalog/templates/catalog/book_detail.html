@@ -1,0 +1,44 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="header">Title: {{ book.title }}</h1>
+
+    <dl class="row">
+      <dt class="col-sm-3">Author:</dt>
+      <dd class="col-sm-9"><a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></dd>
+
+      <dt class="col-sm-3">Summary:</dt>
+      <dd class="col-sm-9">{{ book.summary }}</dd>
+
+      <dt class="col-sm-3">ISBN:</dt>
+      <dd class="col-sm-9">{{ book.isbn }}</dd>
+
+      <dt class="col-sm-3">Language:</dt>
+      <dd class="col-sm-9">{{ book.language }}</dd>
+
+      <dt class="col-sm-3">Genre:</dt>
+      <dd class="col-sm-9">{{ book.genre.all|join:", " }}</dd>
+    </dl>
+
+    <div class="mt-5">
+      <h4 class="mb-3">Copies</h4>
+
+      {% for copy in book.bookinstance_set.all %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <p
+              class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">
+              {{ copy.get_status_display }}
+            </p>
+            {% if copy.status != 'a' %}
+              <p><strong>Due to be returned:</strong> {{ copy.due_back }}</p>
+            {% endif %}
+            <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+            <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
