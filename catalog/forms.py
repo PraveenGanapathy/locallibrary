@@ -21,3 +21,11 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+class SearchForm(forms.Form):
+    query = forms.CharField()
+
+    def clean_query(self):
+        query = self.cleaned_data['query']
+        if not query.strip():  # Check if query is empty
+            raise forms.ValidationError("Please enter a search query.")
+        return query

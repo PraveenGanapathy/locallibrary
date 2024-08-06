@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 
-@login_required
+
 def index(request):
     """View function for home page of site."""
 
@@ -155,4 +155,19 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
             return HttpResponseRedirect(
                 reverse("author-delete", kwargs={"pk": self.object.pk})
             )
-
+from django.shortcuts import render
+from .models import Book, Author, Genre
+from django.db.models import Q
+from catalog.forms import SearchForm
+from django.http import HttpResponse
+def search(request):
+    form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        query = request.GET.get('query', '')
+        books = Book.objects.filter(
+            Q(title__icontains=query) | Q(author__first_name__icontains=query) | Q(author__last_name__icontains=query) | Q(genre__name__icontains=query)
+        )
+        return render(request, 'search_results.html', {'books': books, 'query': query})
+    else:
+        return render(request, 'catalog/search_error.html')

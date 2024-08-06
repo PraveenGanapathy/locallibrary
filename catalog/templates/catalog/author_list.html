@@ -1,16 +1,18 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Author List</h1>
-  {% if author_list %}
-    <ul>
-      {% for author in author_list %}
-      <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.first_name }}, {{ author.last_name }} ({{ author.date_of_birth }}-{{ author.date_of_death|default_if_none:"" }})</a>
-      </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>There are no Author Found.</p>
-  {% endif %}
+  <div class="container">
+    <h1 class="header">Author List</h1>
+    {% if author_list %}
+      <ul class="list-group">
+        {% for author in author_list %}
+          <li class="list-group-item">
+            <a href="{{ author.get_absolute_url }}">{{ author.first_name }}, {{ author.last_name }} ({{ author.date_of_birth }}-{{ author.date_of_death|default_if_none:"" }})</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">There are no authors found.</p>
+    {% endif %}
+  </div>
 {% endblock %}
