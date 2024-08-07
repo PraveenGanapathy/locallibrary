@@ -1,9 +1,11 @@
 $(document).ready(function(){
-    $('#sidebar-nav').on('show.bs.collapse', function () {
-      $('a[href="#sidebar-nav"]').html('&#10006;');
+    $('.navbar-toggler').on('click', function () {
+        var icon = $('#navbar-icon');
+        icon.toggleClass('bi-list bi-x');
+        if (icon.hasClass('bi-x')) {
+            icon.removeClass('bi-list');
+        } else {
+            icon.removeClass('bi-x');
+        }
     });
-  
-    $('#sidebar-nav').on('hide.bs.collapse', function () {
-      $('a[href="#sidebar-nav"]').html('&#9776;');
-    });
-  });
+});

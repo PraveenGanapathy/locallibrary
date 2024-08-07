@@ -171,3 +171,60 @@ def search(request):
         return render(request, 'search_results.html', {'books': books, 'query': query})
     else:
         return render(request, 'catalog/search_error.html')
+from django.shortcuts import render, redirect
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
+
+def signup2(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUserCreationForm()
+        return render(request, 'registration/signup.html', {'form': form})
+    
+def signup(request):
+    if request.method == 'POST':
+        print(request.POST)  # Check the form data
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            if User.objects.filter(email=email).exists():
+                form.add_error('email', 'Email already in use.')
+                return render(request, 'registration/signup.html', {'form': form})
+            print(form.cleaned_data)  # Check the cleaned form data
+            form.save()
+            return redirect('login')
+        else:
+            print(form.errors)  # Check the form errors
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+def forgot_username(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        try:
+            user = User.objects.get(email=email)
+            # Send username to user's email
+            # ...
+            return render(request, 'registration/forgot_username.html', {'success': 'Username sent to your email.'})
+        except User.DoesNotExist:
+            return render(request, 'forgot_username.html', {'error': 'Email not found.'})
+    return render(request, 'registration/forgot_username.html')
+
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+
+def check_username(request):
+    username = request.GET.get('username')
+    available = not User.objects.filter(username=username).exists()
+    return JsonResponse({'available': available})
+def check_email(request):
+    email = request.GET.get('email')
+    available = not User.objects.filter(email=email).exists()
+    return JsonResponse({'available': available})

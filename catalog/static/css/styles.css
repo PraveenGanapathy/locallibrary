@@ -39,18 +39,42 @@ body {
     content: "\10006";
   }
   
-  /* Add some basic responsive design rules */
-  @media (max-width: 768px) {
-    .container-fluid {
-      padding: 0;
-    }
-    .sidebar-nav {
-      display: none;
-    }
-  }
+
   .list-group-item span {
     color: #000000; /* or any other color you want */
   }
   .custom-list {
     color: #337ab7; /* or any other color you want */
+}
+@media (max-width: 768px) {
+    .container {
+      width: 100%;
+    }
+    .card {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .form-group {
+      flex-direction: column;
+    }
+    .col-sm-4, .col-sm-8 {
+      padding: 10px;
+      width: 100%;
+    }
+    .btn {
+      width: 100%;
+    }
+  }
+  .login-form .form-control {
+    width: 100%;
+    max-width: 200px;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 12h11l-5.5-5.5-5.5 5.5z'/%3E%3C/svg%3E");
+}
+
+.navbar-toggler-icon.clicked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M12.5 4.5l-7 7-7-7-1.5 1.5 7 7 7-7 1.5-1.5z'/%3E%3C/svg%3E");
 }
