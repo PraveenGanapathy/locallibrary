@@ -50,5 +50,16 @@ class BookInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 
+class CustomUserAdmin(UserAdmin):
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+    )
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 

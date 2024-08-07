@@ -1,0 +1,133 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button[type="submit"] {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <h2>Create Your Library Account</h2>
+    <p>Please fill out the form below to create your library account. If you are a staff member, please contact the admin for access rights.</p>
+    <form method="post">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        {{ form.username }}
+        <span id="username-status"></span>
+        <br>
+        <label for="first_name">First Name:</label>
+        {{ form.first_name }}
+        <br>
+        <label for="last_name">Last Name:</label>
+        {{ form.last_name }}
+        <br>
+        <label for="email">Email:</label>
+        {{ form.email }}
+        <span id="email-status"></span>
+        <br>
+        <label for="password1">Password:</label>
+        {{ form.password1 }}
+        <br>
+        <label for="password2">Confirm Password:</label>
+        {{ form.password2 }}
+        <br>
+        <button type="submit">Create Account</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+    <p>Forgot username? <a href="{% url 'forgot_username' %}">Retrieve it here</a></p>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('input[name="username"]').on('keyup', function() {
+        var username = $(this).val();
+        if (username == '') {
+            $('#username-status').html('Please enter the username field!');
+            $('#username-status').css('color', 'red');
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: '/check-username/',
+                data: {
+                    'username': username
+                },
+                success: function(data) {
+                    if (data.available) {
+                        $('#username-status').html('Username available!');
+                        $('#username-status').css('color', 'green');
+                    } else {
+                        $('#username-status').html('Username already taken!');
+                        $('#username-status').css('color', 'red');
+                    }
+                }
+            });
+        }
+    });
+
+    $('input[name="email"]').on('keyup', function() {
+        var email = $(this).val();
+        if (email == '') {
+            $('#email-status').html('Please enter the email field!');
+            $('#email-status').css('color', 'red');
+        } else {
+            $.ajax({
+                type: 'GET',
+                url: '/check-email/',
+                data: {
+                    'email': email
+                },
+                success: function(data) {
+                    if (data.available) {
+                        $('#email-status').html('Email available!');
+                        $('#email-status').css('color', 'green');
+                    } else {
+                        $('#email-status').html('Email already in use!');
+                        $('#email-status').css('color', 'red');
+                    }
+                }
+            });
+        }
+    });
+});
+</script>
