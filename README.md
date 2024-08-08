@@ -12,6 +12,12 @@ A web-based library management system built with Django, allowing users to brows
 - **Permission-Based Access Control**: Different access levels for different users.
 - **Ajax-Powered Validation**: Real-time username and email validation.
 
+## ER Diagram
+
+Below is the ER Diagram representing the structure of the database:
+
+![ER Diagram](er_diagram.png)
+
 ## Installation
 
 1. **Clone the repository**:
