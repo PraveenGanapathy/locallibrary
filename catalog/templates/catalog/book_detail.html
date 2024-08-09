@@ -15,7 +15,7 @@
       <dd class="col-sm-9">{{ book.isbn }}</dd>
 
       <dt class="col-sm-3">Language:</dt>
-      <dd class="col-sm-9">{{ book.language }}</dd>
+      <dd class="col-sm-9">{{ book.languages.all|join:", " }}</dd>
 
       <dt class="col-sm-3">Genre:</dt>
       <dd class="col-sm-9">{{ book.genre.all|join:", " }}</dd>

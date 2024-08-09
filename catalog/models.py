@@ -31,13 +31,38 @@ class Genre(models.Model):
                 violation_error_message = "Genre already exists (case insensitive match)"
             ),
         ]
+class Language(models.Model):
+    """Model representing a book Language."""
+    name = models.CharField(
+        max_length=200,
+        unique=True,
+        help_text="Enter a book genre (e.g. English, Tamil, etc.)"
+    )
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.name
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular genre instance."""
+        return reverse('language-detail', args=[str(self.id)])
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                Lower('name'),
+                name='language_name_case_insensitive_unique',
+                violation_error_message = "Language already exists (case insensitive match)"
+            ),
+        ]
+
 class Book(models.Model):
     """Model representing a book (but not a specific copy of a book)."""
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.RESTRICT, null=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books.
     # Author as a string rather than object because it hasn't been declared yet in file.
-
+    languages = models.ManyToManyField(Language,help_text="Select a Language for this book")
     summary = models.TextField(
         max_length=1000, help_text="Enter a brief description of the book")
     isbn = models.CharField('ISBN', max_length=13,
@@ -122,28 +147,4 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
-class Language(models.Model):
-    """Model representing a book Language."""
-    name = models.CharField(
-        max_length=200,
-        unique=True,
-        help_text="Enter a book genre (e.g. English, Tamil, etc.)"
-    )
-
-    def __str__(self):
-        """String for representing the Model object."""
-        return self.name
-
-    def get_absolute_url(self):
-        """Returns the url to access a particular genre instance."""
-        return reverse('language-detail', args=[str(self.id)])
-
-    class Meta:
-        constraints = [
-            UniqueConstraint(
-                Lower('name'),
-                name='language_name_case_insensitive_unique',
-                violation_error_message = "Language already exists (case insensitive match)"
-            ),
-        ]
 
