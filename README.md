@@ -16,8 +16,7 @@ A web-based library management system built with Django, allowing users to brows
 
 Below is the ER Diagram representing the structure of the database:
 
-![ER Diagram](er_diagram.png)
-
+![ER Diagram](er_diagram.jpeg)
 ## Installation
 
 1. **Clone the repository**:
